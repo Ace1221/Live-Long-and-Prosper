@@ -5,6 +5,7 @@ public class Node implements Comparable {
     private String operator;
     private int pathCost;
     private int depth;
+    public double priority = 0;
     public Node(State state, Node parentNode, String operator, int depth, int pathCost) {
         this.state = state;
         this.parentNode = parentNode;
@@ -35,7 +36,8 @@ public class Node implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        Node n = (Node) o;
+        return Double.compare(n.priority, this.priority);
     }
 
 

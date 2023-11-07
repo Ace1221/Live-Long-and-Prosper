@@ -1,16 +1,21 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class State {
     private int prosperity;
     private int food;
     private int materials;
     private int energy;
     private int moneySpent;
+    List <String> operations = new ArrayList<String>();
 
-    public State(int prosperity, int food, int materials, int energy, int moneySpent){
+    public State(int prosperity, int food, int materials, int energy, int moneySpent, List <String> operations){
         this.prosperity = prosperity;
         this.food = food;
         this.materials = materials;
         this.energy = energy;
         this.moneySpent = moneySpent;
+        this.operations = operations;
     }
 
     public int getProsperity() {
@@ -53,6 +58,14 @@ public class State {
             return true;
         }
         return false;
+    }
+
+    public List <String> getStateOperations(){
+        return operations;
+    }
+
+    public String toString(){
+        return "Food "+ getFood() + " Prop " + getProsperity() + " Materials " + getMaterials() + " Money Spent "+ getMoneySpent();
     }
 
 }
