@@ -2,4 +2,6 @@
 
 ## Todo
 - Add operations to each state ✅
-- Fix logic of the path cost
+- Fix logic of the path cost ✅
+- Test
+- Report
