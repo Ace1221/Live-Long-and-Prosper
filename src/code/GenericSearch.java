@@ -1,4 +1,7 @@
-import java.util.*;;
+package code;
+import java.awt.*;
+import java.util.*;
+import java.util.List;;
 
 public class GenericSearch {
     HashMap<ProblemConstants, Integer> problemMap = new HashMap<ProblemConstants, Integer>();
@@ -44,16 +47,16 @@ public class GenericSearch {
 
     public void enque(PriorityQueue<Node> nodes, Node node, String strategy, Node initNode){
         List <String> ops = node.getState().getStateOperations();
-        if(strategy=="ID" && node.getDepth() >= iterativeLevel){
+        if(strategy.equals("ID") && node.getDepth() >= iterativeLevel){
             nodes.clear();
             nodes.add(initNode);
             iterativeLevel ++;
             return;
         }
-
-        for (String operation : ops){
+        for (String operation : ops) {
+            System.out.println("Wslt l7ad abl el expand");
             Node child = expand(node, operation);
-            if(child != null){
+            if (child != null) {
                 switch (strategy) {
                     case "BF":
                         break;
@@ -67,33 +70,33 @@ public class GenericSearch {
                         break;
 
                     case "UC":
-                        child.priority = - child.getPathCost();
+                        child.priority = -child.getPathCost();
                         break;
 
                     case "GR1":
                         child.priority = getHeuristic1(child);
                         break;
 
-                    case "GR2":                      
+                    case "GR2":
                         child.priority = getHeuristic2(child);
-                        System.out.println(child.priority);
                         break;
 
                     case "AS1":
-                        child.priority = - child.getPathCost() + getHeuristic1(child);
+                        child.priority = -child.getPathCost() + getHeuristic1(child);
                         break;
 
                     case "AS2":
-                        child.priority = - child.getPathCost() + getHeuristic2(child);
+                        child.priority = -child.getPathCost() + getHeuristic2(child);
                         break;
-                        
-                
+
+
                     default:
                         break;
                 }
                 nodes.add(child);
-                
+
             }
+            System.out.println("Wslt l a5er el enqueue");
         }
     }
 
@@ -103,15 +106,29 @@ public class GenericSearch {
         PriorityQueue<Node> nodes = makeQueue(initNode, QingFunction);
         Node node = null;
         while(!nodes.isEmpty()){
+
             System.out.println("Pulled");
             node = nodes.poll();
+            System.out.println("Depth: " + node.getDepth());
+            System.out.println("Resource Requested: " + node.getState().isResourceRequested());
+            System.out.println("Resource Requested Type: " + node.getState().getResourceRequestedType());
+            System.out.println("Turns until resource available: " + node.getState().getTurnsUntilResourceAvailable());
+            System.out.println("Operator: " + node.getOperator());
+            if(node.getParentNode()!= null){
+                System.out.println("Parent Node Operator: " + node.getParentNode().getOperator());
+            }
             System.out.println(node.getState());
+            System.out.println();
+            System.out.println();
             if(node.getState().isGoalState()){
+                System.out.println("Goal State");
                 System.out.println(node.getState());
                 return node;
             }
-            
+            System.out.println("Before enqueue");
             enque(nodes, node, QingFunction, initNode);
+            System.out.println("After enqueue");
+            System.out.println(nodes.isEmpty());
 
         }
         return null;  
