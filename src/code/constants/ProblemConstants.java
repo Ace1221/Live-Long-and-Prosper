@@ -1,4 +1,4 @@
-package code;
+package code.constants;
 public enum ProblemConstants {
 initialProsperity,
 initialFood, initialMaterials, initialEnergy,
