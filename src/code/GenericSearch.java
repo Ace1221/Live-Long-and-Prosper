@@ -53,9 +53,10 @@ public class GenericSearch {
             iterativeLevel ++;
             return;
         }
-        for (String operation : ops) {
-            System.out.println("Wslt l7ad abl el expand");
-            Node child = expand(node, operation);
+        for (int i = 0; i < ops.size(); i++) {
+//            System.out.println("Wslt l7ad abl el expand");
+
+            Node child = expand(node, ops.get(i));
             if (child != null) {
                 switch (strategy) {
                     case "BF":
@@ -96,8 +97,9 @@ public class GenericSearch {
                 nodes.add(child);
 
             }
-            System.out.println("Wslt l a5er el enqueue");
+
         }
+//        System.out.println("Wslt l a5er el enqueue");
     }
 
     public Node generalSearch(String problem, String QingFunction){
@@ -105,13 +107,22 @@ public class GenericSearch {
         Node initNode = makeNode(initState, null, null, 0, 0);
         PriorityQueue<Node> nodes = makeQueue(initNode, QingFunction);
         Node node = null;
+        int lastDepth = 0;
         while(!nodes.isEmpty()){
 
-            System.out.println("Pulled");
             node = nodes.poll();
+            if(node.getDepth()> lastDepth){
+                System.out.println("----------------------------------------------");
+                if(node.getDepth()>=10){
+                    return null;
+                }
+                lastDepth = node.getDepth();
+            }
+            System.out.println("Pulled");
             System.out.println("Depth: " + node.getDepth());
             System.out.println("Resource Requested: " + node.getState().isResourceRequested());
             System.out.println("Resource Requested Type: " + node.getState().getResourceRequestedType());
+            System.out.println("Resource Requested Amount: "+ node.getState().getResourceRequestedAmount());
             System.out.println("Turns until resource available: " + node.getState().getTurnsUntilResourceAvailable());
             System.out.println("Operator: " + node.getOperator());
             if(node.getParentNode()!= null){
@@ -125,10 +136,10 @@ public class GenericSearch {
                 System.out.println(node.getState());
                 return node;
             }
-            System.out.println("Before enqueue");
+//            System.out.println("Before enqueue");
             enque(nodes, node, QingFunction, initNode);
-            System.out.println("After enqueue");
-            System.out.println(nodes.isEmpty());
+//            System.out.println("After enqueue");
+//            System.out.println(nodes.isEmpty());
 
         }
         return null;  

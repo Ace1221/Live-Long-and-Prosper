@@ -47,8 +47,8 @@ public class LLAPSearch extends GenericSearch{
     }
     @Override
     public Node expand(Node node,String operation){
-        System.out.println(operation);
-        System.out.println("D5lt el expand");
+//        System.out.println(operation);
+//        System.out.println("D5lt el expand");
         State oldState = node.getState();
         int newFood = 0, newMaterials = 0, newEnergy = 0, newProsperity, moneySpentFood,moneySpentEnergy,moneySpentMaterials,moneySpent, nodeCost;
         List <String> newOperations;
@@ -69,7 +69,7 @@ public class LLAPSearch extends GenericSearch{
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, oldState.getStateOperations());
                         Node child = makeNode(newState, node, operation, node.getDepth() + 1, node.getPathCost() + nodeCost);
-                    System.out.println("5lst el expand");
+//                    System.out.println("5lst el expand");
 
                     return child;
                     }
