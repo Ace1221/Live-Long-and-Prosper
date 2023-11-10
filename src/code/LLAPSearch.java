@@ -147,7 +147,13 @@ public class LLAPSearch extends GenericSearch{
     public String search(String initialState, boolean visualize, String strategy){
         Node goal = generalSearch(initialState, strategy);
         StringBuilder plan = new StringBuilder();
-        int nodesExpanded = 0;
+        long nodesExpanded = 0;
+        if(strategy.equals("ID")){
+            nodesExpanded = iterativeExpandedNodesCounter + expandedNodes.size();
+        }
+        else{
+            nodesExpanded = expandedNodes.size();
+        }
         if(goal == null){
             return "NOSOLUTION";
         }
@@ -157,7 +163,6 @@ public class LLAPSearch extends GenericSearch{
 
             while(goal.getParentNode() != null){
 //                System.out.println("Started "+strategy);
-                nodesExpanded++;
 //                System.out.println(goal.getPathCost());
 //                System.out.println("Operator: " + goal.getOperator());
                 System.out.println("Current state: " + goal.getState());
@@ -178,19 +183,19 @@ public class LLAPSearch extends GenericSearch{
 
 public static void main(String[] args) {
 //        System.out.println("Started");
-//        String initialState0 = "17;" +
-//                "49,30,46;" +
-//                "7,57,6;" +
-//                "7,1;20,2;29,2;" +
-//                "350,10,9,8,28;" +
-//                "408,8,12,13,34;";
+        String initialState0 = "21;" +
+                "15,19,13;" +
+                "50,50,50;" +
+                "12,2;16,2;9,2;" +
+                "3076,15,26,28,40;" +
+                "5015,25,15,15,38;";
 //        // String init = "0;" +
 //        // "19,35,40;" +
 //        // "27,84,200;" +
 //        // "15,2;37,1;19,2;" +
 //        // "569,11,20,3,50;"+
 //        // "115,5,8,21,38;" ;
-//        String solution = solve(initialState0, "BF", false);
+        String solution = solve(initialState0, "ID", false);
 //        System.out.println("Done");
 //        System.out.println(solution);
 //

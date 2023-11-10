@@ -8,6 +8,7 @@ public class GenericSearch {
 
     HashSet<String> expandedNodes = new HashSet<>();
     int iterativeLevel = 0;
+    long iterativeExpandedNodesCounter = 0;
 
     public State initState(String problem){
         return null;
@@ -94,6 +95,7 @@ public class GenericSearch {
 
         }
         if(strategy.equals("ID") && node.getDepth() >= iterativeLevel){
+            iterativeExpandedNodesCounter += expandedNodes.size();
             nodes.clear();
             expandedNodes.clear();
             nodes.add(initNode);
