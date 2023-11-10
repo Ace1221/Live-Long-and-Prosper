@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class LLAPSearch extends GenericSearch{
     private final static int moneyToSpend = 100000;
 
+    private final static int maxResourcesAmount = 50;
     @Override
     public State initState(String problem){
         problemMap = Parser.parseProblem(problem);
@@ -79,7 +80,9 @@ public class LLAPSearch extends GenericSearch{
                 nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
                 moneySpent = oldState.getMoneySpent() + nodeCost;
 
-                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                int foodAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestFood);
+
+                if(foodAmountAfterWaitWillBe <= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }
@@ -96,7 +99,9 @@ public class LLAPSearch extends GenericSearch{
                 nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
                 moneySpent = oldState.getMoneySpent() + nodeCost;
 
-                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                int materialsAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestMaterials);
+
+                if(materialsAmountAfterWaitWillBe <= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }
@@ -113,7 +118,9 @@ public class LLAPSearch extends GenericSearch{
                 nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
                 moneySpent = oldState.getMoneySpent() + nodeCost;
 
-                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                int energyAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestEnergy);
+
+                if(energyAmountAfterWaitWillBe<= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }
@@ -159,6 +166,7 @@ public class LLAPSearch extends GenericSearch{
                 goal = goal.getParentNode();
                 temp = ",";
             }
+            System.out.println("Initial state: " + goal.getState());
             System.out.println(plan + ";" + cost + ";" + nodesExpanded);
             return plan + ";" + cost + ";" + nodesExpanded;
         }
