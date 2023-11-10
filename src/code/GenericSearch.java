@@ -110,28 +110,28 @@ public class GenericSearch {
         while(!nodes.isEmpty()){
             node = nodes.poll();
             if(node.getDepth()> lastDepth){
-                System.out.println("----------------------------------------------");
+//                System.out.println("----------------------------------------------");
 //                if(node.getDepth()>=5){
 //                    return null;
 //                }
                 lastDepth = node.getDepth();
             }
-            System.out.println("Pulled");
-            System.out.println("Depth: " + node.getDepth());
-            System.out.println("Resource Requested: " + node.isResourceRequested());
-            System.out.println("Resource Requested Type: " + node.getResourceRequestedType());
-            System.out.println("Resource Requested Amount: "+ node.getResourceRequestedAmount());
-            System.out.println("Turns until resource available: " + node.getTurnsUntilResourceAvailable());
-            System.out.println("Operator: " + node.getOperator());
-            if(node.getParentNode()!= null){
-                System.out.println("Parent Node Operator: " + node.getParentNode().getOperator());
-            }
-            System.out.println(node.getState());
-            System.out.println();
-            System.out.println();
+//            System.out.println("Pulled");
+//            System.out.println("Depth: " + node.getDepth());
+//            System.out.println("Resource Requested: " + node.isResourceRequested());
+//            System.out.println("Resource Requested Type: " + node.getResourceRequestedType());
+//            System.out.println("Resource Requested Amount: "+ node.getResourceRequestedAmount());
+//            System.out.println("Turns until resource available: " + node.getTurnsUntilResourceAvailable());
+//            System.out.println("Operator: " + node.getOperator());
+//            if(node.getParentNode()!= null){
+//                System.out.println("Parent Node Operator: " + node.getParentNode().getOperator());
+//            }
+//            System.out.println(node.getState());
+//            System.out.println();
+//            System.out.println();
             if(node.getState().isGoalState()){
-                System.out.println("Goal State");
-                System.out.println(node.getState());
+//                System.out.println("Goal State");
+//                System.out.println(node.getState());
                 return node;
             }
 //            System.out.println("Size before expanding");
