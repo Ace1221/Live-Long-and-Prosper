@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class LLAPSearch extends GenericSearch{
     private final static int moneyToSpend = 100000;
 
-    private final static int maxResourcesAmount = 50;
+    public final static int maxResourcesAmount = 50;
     @Override
     public State initState(String problem){
         problemMap = Parser.parseProblem(problem);
@@ -82,7 +82,7 @@ public class LLAPSearch extends GenericSearch{
 
                 int foodAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestFood);
 
-                if(foodAmountAfterWaitWillBe <= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }
@@ -101,7 +101,7 @@ public class LLAPSearch extends GenericSearch{
 
                 int materialsAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestMaterials);
 
-                if(materialsAmountAfterWaitWillBe <= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }
@@ -120,7 +120,7 @@ public class LLAPSearch extends GenericSearch{
 
                 int energyAmountAfterWaitWillBe = problemMap.get(ProblemConstants.amountRequestEnergy);
 
-                if(energyAmountAfterWaitWillBe<= maxResourcesAmount && newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
+                if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
                     }

@@ -14,9 +14,9 @@ public class State {
 
     public State(int prosperity, int food, int materials, int energy, int moneySpent, List <OperatorTypes> operations){
         this.prosperity = prosperity;
-        this.food = food;
-        this.materials = materials;
-        this.energy = energy;
+        this.food = Math.min(food, LLAPSearch.maxResourcesAmount);
+        this.materials = Math.min(materials, LLAPSearch.maxResourcesAmount);
+        this.energy = Math.min(energy, LLAPSearch.maxResourcesAmount);
         this.moneySpent = moneySpent;
         this.operations = operations;
     }
@@ -41,15 +41,15 @@ public class State {
     }
 
     public void setFood(int food) {
-        this.food = food;
+        this.food = Math.min(food, LLAPSearch.maxResourcesAmount);
     }
 
     public void setMaterials(int materials) {
-        this.materials = materials;
+        this.materials = Math.min(materials, LLAPSearch.maxResourcesAmount);
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.energy = Math.min(energy, LLAPSearch.maxResourcesAmount);
     }
 
 
