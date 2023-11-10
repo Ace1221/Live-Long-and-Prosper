@@ -6,7 +6,7 @@ import java.util.*;
 public class GenericSearch {
     public static HashMap<ProblemConstants, Integer> problemMap = new HashMap<>();
 
-    HashSet<String> expandedNodes = new HashSet<>();
+    HashSet<Node> expandedNodes = new HashSet<>();
     int iterativeLevel = 0;
     long iterativeExpandedNodesCounter = 0;
 
@@ -51,8 +51,8 @@ public class GenericSearch {
         List <OperatorTypes> operations = node.getState().getOperations();
         for (OperatorTypes operation: operations) {
             Node child = expand(node, operation);
-            if (child != null && !expandedNodes.contains(child.toString())) {
-                expandedNodes.add(child.toString());
+            if (child != null && !expandedNodes.contains(child)) {
+                expandedNodes.add(child);
                 switch (strategy) {
                     case "BF":
                         child.priority = - child.getDepth();
