@@ -52,12 +52,16 @@ public class LLAPSearch extends GenericSearch{
                 newFood = oldState.getFood() - problemMap.get(ProblemConstants.foodUseBUILD2);
                 newMaterials = oldState.getMaterials() - problemMap.get(ProblemConstants.materialsUseBUILD2);
                 newEnergy = oldState.getEnergy() - problemMap.get(ProblemConstants.energyUseBUILD2);
+
                 newProsperity = oldState.getProsperity() + problemMap.get(ProblemConstants.prosperityBUILD2);
+
                 moneySpentFood = problemMap.get(ProblemConstants.foodUseBUILD2) * problemMap.get(ProblemConstants.unitPriceFood);
                 moneySpentMaterials = problemMap.get(ProblemConstants.materialsUseBUILD2) * problemMap.get(ProblemConstants.unitPriceMaterials);
                 moneySpentEnergy = problemMap.get(ProblemConstants.energyUseBUILD2) * problemMap.get(ProblemConstants.unitPriceEnergy);
+
                 nodeCost =  moneySpentEnergy + moneySpentFood + moneySpentMaterials;
                 moneySpent = oldState.getMoneySpent() + problemMap.get(ProblemConstants.priceBUILD2) + nodeCost;
+
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
@@ -66,10 +70,12 @@ public class LLAPSearch extends GenericSearch{
                     return null;
                 }
             case REQUESTFOOD:
-                newMaterials += oldState.getMaterials() - 1;
-                newEnergy += oldState.getEnergy() - 1;
+                newMaterials = oldState.getMaterials() - 1;
+                newEnergy = oldState.getEnergy() - 1;
+                newFood = oldState.getFood() - 1;
+
                 newProsperity = oldState.getProsperity();
-                newFood += oldState.getFood() - 1;
+
                 nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
                 moneySpent = oldState.getMoneySpent() + nodeCost;
 
@@ -81,12 +87,15 @@ public class LLAPSearch extends GenericSearch{
                     return null;
                 }
             case REQUESTMATERIALS:
-                newFood += oldState.getFood() - 1;
-                newEnergy += oldState.getEnergy() - 1;
+                newFood = oldState.getFood() - 1;
+                newEnergy = oldState.getEnergy() - 1;
                 newMaterials = oldState.getMaterials() - 1;
 
                 newProsperity = oldState.getProsperity();
-                moneySpent = oldState.getMoneySpent() + problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+
+                nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+                moneySpent = oldState.getMoneySpent() + nodeCost;
+
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
@@ -100,7 +109,10 @@ public class LLAPSearch extends GenericSearch{
                 newEnergy += oldState.getEnergy() - 1;
 
                 newProsperity = oldState.getProsperity();
-                moneySpent = oldState.getMoneySpent() + problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+
+                nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+                moneySpent = oldState.getMoneySpent() + nodeCost;
+
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
                         return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
