@@ -38,34 +38,8 @@ public class Node implements Comparable {
     }
     private void handleRequestedResources()
     {
-        if(this.parentNode!=null){
-            if(this.parentNode.isResourceRequested()) {
-                if (this.parentNode.getTurnsUntilResourceAvailable() == 1) {
-                    // add the requested resource and set flags to false if operator is not a requested material
-                    switch (parentNode.getResourceRequestedType()) {
-                        case FOOD:
-                            this.state.setFood(state.getFood() + parentNode.getResourceRequestedAmount());
-                            break;
-                        case MATERIALS:
-                            this.state.setMaterials(state.getMaterials() + parentNode.getResourceRequestedAmount());
-                            break;
-                        case ENERGY:
-                            this.state.setEnergy(state.getEnergy() + parentNode.getResourceRequestedAmount());
-                            break;
-                        default:
-                            break;
-                    }
-                    state.endRequestOperations();
-                }
-                else{
-                        // pass flags to new state and set turns to -1
-                        this.resourceRequested = true;
-                        this.turnsUntilResourceAvailable = this.parentNode.getTurnsUntilResourceAvailable() - 1;
-                        this.resourceRequestedType = this.parentNode.getResourceRequestedType();
-                        this.resourceRequestedAmount = this.parentNode.getResourceRequestedAmount();
-                }
-            }
 
+        if(this.parentNode!=null){
             if(this.operator.equals(OperatorTypes.REQUESTENERGY) || this.operator.equals(OperatorTypes.REQUESTMATERIALS) || this.operator.equals(OperatorTypes.REQUESTFOOD)){
                 setResourceRequested(true);
                 switch(operator){
@@ -89,6 +63,40 @@ public class Node implements Comparable {
                 }
                 state.initializeRequestOperations();
             }
+            else{
+                if(this.parentNode.isResourceRequested()){
+                    this.resourceRequested = true;
+                    this.turnsUntilResourceAvailable = this.parentNode.getTurnsUntilResourceAvailable() - 1;
+                    this.resourceRequestedType = this.parentNode.getResourceRequestedType();
+                    this.resourceRequestedAmount = this.parentNode.getResourceRequestedAmount();
+                }
+            }
+
+            if(this.isResourceRequested()) {
+                if (this.getTurnsUntilResourceAvailable() == 0) {
+                    // add the requested resource and set flags to false if operator is not a requested material
+                    switch (this.getResourceRequestedType()) {
+                        case FOOD:
+                            this.state.setFood(state.getFood() + parentNode.getResourceRequestedAmount());
+                            break;
+                        case MATERIALS:
+                            this.state.setMaterials(state.getMaterials() + parentNode.getResourceRequestedAmount());
+                            break;
+                        case ENERGY:
+                            this.state.setEnergy(state.getEnergy() + parentNode.getResourceRequestedAmount());
+                            break;
+                        default:
+                            break;
+                    }
+                    this.resourceRequested = false;
+                    this.turnsUntilResourceAvailable = 0;
+                    this.resourceRequestedType = null;
+                    this.resourceRequestedAmount = 0;
+                    state.endRequestOperations();
+                }
+            }
+
+
         }
 
     }

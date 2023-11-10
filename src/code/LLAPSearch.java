@@ -1,9 +1,8 @@
 package code;
+import java.util.ArrayList;
+
 import code.constants.OperatorTypes;
 import code.constants.ProblemConstants;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LLAPSearch extends GenericSearch{
     private final static int moneyToSpend = 100000;
@@ -177,7 +176,7 @@ public class LLAPSearch extends GenericSearch{
         return LLAPSearchInstance.search(initialState, visualize, strategy);
     }
 
-//    public static void main(String[] args) {
+public static void main(String[] args) {
 //        System.out.println("Started");
 //        String initialState0 = "17;" +
 //                "49,30,46;" +
@@ -195,6 +194,6 @@ public class LLAPSearch extends GenericSearch{
 //        System.out.println("Done");
 //        System.out.println(solution);
 //
-//    }
+    }
 
 }
