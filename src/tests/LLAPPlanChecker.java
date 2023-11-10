@@ -115,6 +115,12 @@ public class LLAPPlanChecker {
             x = new ArrayList<>();
             break;
         }
+//        System.out.println(this.v1 >= x.get(1));
+//        System.out.println(this.v2 >= x.get(2));
+        if(this.v3 < x.get(3)){
+            System.out.println(this.v3);
+            System.out.println(x.get(3));
+        }
         return (this.v1 >= x.get(1) && this.v2 >= x.get(2) && this.v3 >= x.get(3) && this.v11 - this.v12 >= x.get(0));
     }
 
@@ -215,7 +221,7 @@ public class LLAPPlanChecker {
     boolean f2(int i){
         au();
         String an = "E"+i;
-        if(!er(an)){return false;}
+        if(!er(an)){ System.out.println("here");return false;}
         ur(an);
         mc();
         return true;
