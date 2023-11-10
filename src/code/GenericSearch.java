@@ -48,12 +48,6 @@ public class GenericSearch {
 
     public void enqueue(PriorityQueue<Node> nodes, Node node, String strategy, Node initNode){
         List <OperatorTypes> operations = node.getState().getOperations();
-        if(strategy.equals("ID") && node.getDepth() >= iterativeLevel){
-            nodes.clear();
-            nodes.add(initNode);
-            iterativeLevel ++;
-            return;
-        }
         for (OperatorTypes operation: operations) {
             Node child = expand(node, operation);
             if (child != null && !expandedNodes.contains(child.toString())) {
@@ -98,6 +92,13 @@ public class GenericSearch {
 
             }
 
+        }
+        if(strategy.equals("ID") && node.getDepth() >= iterativeLevel){
+            nodes.clear();
+            expandedNodes.clear();
+            nodes.add(initNode);
+            iterativeLevel ++;
+            return;
         }
     }
 
