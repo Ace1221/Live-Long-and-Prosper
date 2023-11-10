@@ -10,6 +10,8 @@ public class GenericSearch {
     int iterativeLevel = 0;
     long iterativeExpandedNodesCounter = 0;
 
+    public boolean visualize = false;
+
     public State initState(String problem){
         return null;
     }
@@ -112,36 +114,33 @@ public class GenericSearch {
         int lastDepth = 0;
         while(!nodes.isEmpty()){
             node = nodes.poll();
-            if(node.getDepth()> lastDepth){
-//                System.out.println("----------------------------------------------");
-//                if(node.getDepth()>=5){
-//                    return null;
-//                }
-                lastDepth = node.getDepth();
+            if(this.visualize)
+            {
+                if(node.getDepth()> lastDepth){
+                    if(QingFunction.equals("BF"))
+                    {
+                        System.out.println("----------------------------------------------");
+                    }
+                    lastDepth = node.getDepth();
+                }
+                System.out.println("Pulled");
+                System.out.println("Depth: " + node.getDepth());
+                System.out.println("Resource Requested: " + node.isResourceRequested());
+                System.out.println("Resource Requested Type: " + node.getResourceRequestedType());
+                System.out.println("Resource Requested Amount: "+ node.getResourceRequestedAmount());
+                System.out.println("Turns until resource available: " + node.getTurnsUntilResourceAvailable());
+                System.out.println("Operator: " + node.getOperator());
+                if(node.getParentNode()!= null){
+                    System.out.println("Parent Node Operator: " + node.getParentNode().getOperator());
+                }
+                System.out.println(node.getState());
+                System.out.println();
+                System.out.println();
             }
-//            System.out.println("Pulled");
-//            System.out.println("Depth: " + node.getDepth());
-//            System.out.println("Resource Requested: " + node.isResourceRequested());
-//            System.out.println("Resource Requested Type: " + node.getResourceRequestedType());
-//            System.out.println("Resource Requested Amount: "+ node.getResourceRequestedAmount());
-//            System.out.println("Turns until resource available: " + node.getTurnsUntilResourceAvailable());
-//            System.out.println("Operator: " + node.getOperator());
-//            if(node.getParentNode()!= null){
-//                System.out.println("Parent Node Operator: " + node.getParentNode().getOperator());
-//            }
-//            System.out.println(node.getState());
-//            System.out.println();
-//            System.out.println();
             if(node.getState().isGoalState()){
-//                System.out.println("Goal State");
-//                System.out.println(node.getState());
                 return node;
             }
-//            System.out.println("Size before expanding");
-//            System.out.println(nodes.size());
             enqueue(nodes, node, QingFunction, initNode);
-//            System.out.println("Size after expanding");
-//            System.out.println(nodes.size());
         }
         return null;  
     }

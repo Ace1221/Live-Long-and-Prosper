@@ -115,16 +115,6 @@ public class LLAPPlanChecker {
             x = new ArrayList<>();
             break;
         }
-////        System.out.println(this.v1 >= x.get(1));
-////        System.out.println(this.v2 >= x.get(2));
-//        if(this.v3 < x.get(3)){
-//            System.out.println(this.v3);
-//            System.out.println(x.get(3));
-//        }
-        System.out.println("FOOD: " + this.v1);
-        System.out.println("MATERIALS: " + this.v2);
-        System.out.println("ENERGY: " + this.v3);
-        System.out.println("---------");
         return (this.v1 >= x.get(1) && this.v2 >= x.get(2) && this.v3 >= x.get(3) && this.v11 - this.v12 >= x.get(0));
     }
 
@@ -279,7 +269,6 @@ public boolean applyPlan(String grid, String solution){
     if (solution.equals("nosolution")) {
         return false;
     }
-//    System.out.println(solution);
 	String[] solutionArray  = solution.split(";");
 	String plan = solutionArray[0];
 	int blue = Integer.parseInt(solutionArray[1]);
