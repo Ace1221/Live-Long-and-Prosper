@@ -78,13 +78,13 @@ public class Node implements Comparable {
                     // add the requested resource and set flags to false if operator is not a requested material
                     switch (this.getResourceRequestedType()) {
                         case FOOD:
-                            this.state.setFood(state.getFood() + parentNode.getResourceRequestedAmount());
+                            this.state.setFood(state.getFood() + getResourceRequestedAmount());
                             break;
                         case MATERIALS:
-                            this.state.setMaterials(state.getMaterials() + parentNode.getResourceRequestedAmount());
+                            this.state.setMaterials(state.getMaterials() + getResourceRequestedAmount());
                             break;
                         case ENERGY:
-                            this.state.setEnergy(state.getEnergy() + parentNode.getResourceRequestedAmount());
+                            this.state.setEnergy(state.getEnergy() + getResourceRequestedAmount());
                             break;
                         default:
                             break;
