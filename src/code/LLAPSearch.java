@@ -8,6 +8,8 @@ public class LLAPSearch extends GenericSearch{
     private final static int moneyToSpend = 100000;
 
     public final static int maxResourcesAmount = 50;
+
+
     @Override
     public State initState(String problem){
         problemMap = Parser.parseProblem(problem);
@@ -162,22 +164,20 @@ public class LLAPSearch extends GenericSearch{
             String temp = "";
 
             while(goal.getParentNode() != null){
-//                System.out.println("Started "+strategy);
-//                System.out.println(goal.getPathCost());
-//                System.out.println("Operator: " + goal.getOperator());
-                System.out.println("Current state: " + goal.getState());
                 plan.insert(0, goal.getOperator() + temp);
                 goal = goal.getParentNode();
                 temp = ",";
             }
-            System.out.println("Initial state: " + goal.getState());
-            System.out.println(plan + ";" + cost + ";" + nodesExpanded);
+            if(this.visualize) {
+                System.out.println(plan + ";" + cost + ";" + nodesExpanded);
+            }
             return plan + ";" + cost + ";" + nodesExpanded;
         }
     }
 
     public static String solve(String initialState, String strategy, boolean visualize){
         LLAPSearch LLAPSearchInstance = new LLAPSearch();
+        LLAPSearchInstance.visualize = visualize;
         return LLAPSearchInstance.search(initialState, visualize, strategy);
     }
 

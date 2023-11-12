@@ -5,6 +5,7 @@ import code.constants.ProblemConstants;
 import code.constants.ResourceTypes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Node implements Comparable {
 
@@ -77,13 +78,13 @@ public class Node implements Comparable {
                     // add the requested resource and set flags to false if operator is not a requested material
                     switch (this.getResourceRequestedType()) {
                         case FOOD:
-                            this.state.setFood(state.getFood() + parentNode.getResourceRequestedAmount());
+                            this.state.setFood(state.getFood() + getResourceRequestedAmount());
                             break;
                         case MATERIALS:
-                            this.state.setMaterials(state.getMaterials() + parentNode.getResourceRequestedAmount());
+                            this.state.setMaterials(state.getMaterials() + getResourceRequestedAmount());
                             break;
                         case ENERGY:
-                            this.state.setEnergy(state.getEnergy() + parentNode.getResourceRequestedAmount());
+                            this.state.setEnergy(state.getEnergy() + getResourceRequestedAmount());
                             break;
                         default:
                             break;
@@ -158,6 +159,31 @@ public class Node implements Comparable {
     public int compareTo(Object o) {
         Node n = (Node) o;
         return Double.compare(n.priority, this.priority);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node otherNode = (Node) o;
+        boolean equal = true;
+        if(resourceRequestedType!= null){
+            equal = (this.resourceRequestedType.equals(otherNode.resourceRequestedType));
+        }
+        State currentNodeState = this.getState();
+        State otherNodeState = otherNode.getState();
+
+        equal &= currentNodeState.getProsperity() == otherNodeState.getProsperity() &
+                currentNodeState.getEnergy() == otherNodeState.getEnergy() &
+                currentNodeState.getMaterials() == otherNodeState.getMaterials() &
+                currentNodeState.getFood() == otherNodeState.getFood() &
+                currentNodeState.getMoneySpent() == otherNodeState.getMoneySpent();
+        return equal;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(resourceRequestedType, state.getProsperity(),state.getEnergy(),state.getMaterials(),state.getFood(),state.getMoneySpent());
     }
 
 
