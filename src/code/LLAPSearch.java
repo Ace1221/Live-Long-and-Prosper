@@ -13,6 +13,7 @@ public class LLAPSearch extends GenericSearch{
     @Override
     public State initState(String problem){
         problemMap = Parser.parseProblem(problem);
+        initializeHeuristicVariables();
         ArrayList<OperatorTypes> OriginalOperations = new ArrayList<>();
         OriginalOperations.add(OperatorTypes.REQUESTENERGY); OriginalOperations.add(OperatorTypes.REQUESTMATERIALS);
         OriginalOperations.add(OperatorTypes.REQUESTFOOD);
@@ -45,7 +46,7 @@ public class LLAPSearch extends GenericSearch{
 
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                        return makeNode(newState, node, operation, node.getDepth() + 1, node.getPathCost() + nodeCost);
+                        return makeNode(newState, node, operation, node.getDepth() + 1,  nodeCost);
                     }
                 else{
                     return null;
@@ -61,12 +62,12 @@ public class LLAPSearch extends GenericSearch{
                 moneySpentMaterials = problemMap.get(ProblemConstants.materialsUseBUILD2) * problemMap.get(ProblemConstants.unitPriceMaterials);
                 moneySpentEnergy = problemMap.get(ProblemConstants.energyUseBUILD2) * problemMap.get(ProblemConstants.unitPriceEnergy);
 
-                nodeCost =  moneySpentEnergy + moneySpentFood + moneySpentMaterials;
-                moneySpent = oldState.getMoneySpent() + problemMap.get(ProblemConstants.priceBUILD2) + nodeCost;
+                nodeCost =  moneySpentEnergy + moneySpentFood + moneySpentMaterials + problemMap.get(ProblemConstants.priceBUILD2);
+                moneySpent = oldState.getMoneySpent() + nodeCost;
 
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                        return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
+                        return makeNode(newState, node, operation, node.getDepth() + 1, nodeCost);
                     }
                 else{
                     return null;
@@ -85,7 +86,7 @@ public class LLAPSearch extends GenericSearch{
 
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                        return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
+                        return makeNode(newState, node, operation, node.getDepth() + 1, nodeCost);
                     }
                 else{
                     return null;
@@ -104,7 +105,7 @@ public class LLAPSearch extends GenericSearch{
 
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                        return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
+                        return makeNode(newState, node, operation, node.getDepth() + 1, nodeCost);
                     }
                 else{
                     return null;
@@ -123,7 +124,7 @@ public class LLAPSearch extends GenericSearch{
 
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                         State newState = new State(newProsperity, newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                        return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
+                        return makeNode(newState, node, operation, node.getDepth() + 1, nodeCost);
                     }
                 else{
                     return null;
@@ -132,10 +133,11 @@ public class LLAPSearch extends GenericSearch{
                 newFood += oldState.getFood() - 1;
                 newMaterials += oldState.getMaterials() - 1;
                 newEnergy += oldState.getEnergy() - 1;
-                moneySpent = oldState.getMoneySpent() + problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+                nodeCost = problemMap.get(ProblemConstants.unitPriceFood) + problemMap.get(ProblemConstants.unitPriceMaterials) + problemMap.get(ProblemConstants.unitPriceEnergy);
+                moneySpent = oldState.getMoneySpent() + nodeCost;
                 if(newFood >= 0 && newMaterials >= 0 && newEnergy >= 0 && moneySpent <= moneyToSpend){
                     State newState = new State(oldState.getProsperity(), newFood, newMaterials, newEnergy, moneySpent, new ArrayList<>(oldState.getOperations()));
-                    return makeNode(newState, node, operation, node.getDepth() + 1, moneySpent);
+                    return makeNode(newState, node, operation, node.getDepth() + 1, nodeCost);
                 }
                 else{
                     return null;
@@ -157,10 +159,11 @@ public class LLAPSearch extends GenericSearch{
             nodesExpanded = expandedNodes.size();
         }
         if(goal == null){
+            System.out.println("hereee");
             return "NOSOLUTION";
         }
         else{
-            int cost = goal.getPathCost();
+            int cost = goal.getState().getMoneySpent();
             String temp = "";
 
             while(goal.getParentNode() != null){
@@ -168,9 +171,10 @@ public class LLAPSearch extends GenericSearch{
                 goal = goal.getParentNode();
                 temp = ",";
             }
-            if(this.visualize) {
-                System.out.println(plan + ";" + cost + ";" + nodesExpanded);
-            }
+//            if(this.visualize) {
+//                System.out.println(plan + ";" + cost + ";" + nodesExpanded);
+//            }
+            System.out.println(plan + ";" + cost + ";" + nodesExpanded);
             return plan + ";" + cost + ";" + nodesExpanded;
         }
     }
