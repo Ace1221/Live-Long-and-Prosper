@@ -171,10 +171,9 @@ public class LLAPSearch extends GenericSearch{
                 goal = goal.getParentNode();
                 temp = ",";
             }
-//            if(this.visualize) {
-//                System.out.println(plan + ";" + cost + ";" + nodesExpanded);
-//            }
-            System.out.println(plan + ";" + cost + ";" + nodesExpanded);
+            if(this.visualize) {
+                System.out.println(plan + ";" + cost + ";" + nodesExpanded);
+            }
             return plan + ";" + cost + ";" + nodesExpanded;
         }
     }
