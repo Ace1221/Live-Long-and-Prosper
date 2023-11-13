@@ -4,7 +4,6 @@ import code.constants.OperatorTypes;
 import code.constants.ProblemConstants;
 import code.constants.ResourceTypes;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Node implements Comparable {
@@ -12,19 +11,19 @@ public class Node implements Comparable {
     private State state;
     private Node parentNode;
     private OperatorTypes operator;
-    private int pathCost;
+    private int nodeCost;
     private int depth;
-    public double priority = 0;
+    public int priority = 0;
     private boolean resourceRequested = false;
     private int turnsUntilResourceAvailable = 0;
     private ResourceTypes resourceRequestedType;
     private int resourceRequestedAmount = 0;
 
-    public Node(State state, Node parentNode, OperatorTypes operator, int depth, int pathCost) {
+    public Node(State state, Node parentNode, OperatorTypes operator, int depth, int nodeCost) {
         this.state = state;
         this.parentNode = parentNode;
         this.operator = operator;
-        this.pathCost = pathCost;
+        this.nodeCost = nodeCost;
         this.depth = depth;
         handleRequestedResources();
     }
@@ -115,8 +114,8 @@ public class Node implements Comparable {
         return operator;
     }
 
-    public int getPathCost() {
-        return pathCost;
+    public int getNodeCost() {
+        return nodeCost;
     }
 
     public int getDepth() {

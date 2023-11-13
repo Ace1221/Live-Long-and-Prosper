@@ -10,7 +10,35 @@ public class GenericSearch {
     int iterativeLevel = 0;
     long iterativeExpandedNodesCounter = 0;
 
+    int priceToUseHeuristic1;
+    int priceToUseHeuristic2;
+    int prosperityIncreaseToUse;
     public boolean visualize = false;
+
+    public void initializeHeuristicVariables(){
+
+        int moneySpentFoodBuild1 = problemMap.get(ProblemConstants.foodUseBUILD1) * problemMap.get(ProblemConstants.unitPriceFood);
+        int moneySpentMaterialsBuild1 = problemMap.get(ProblemConstants.materialsUseBUILD1) * problemMap.get(ProblemConstants.unitPriceMaterials);
+        int moneySpentEnergyBuild1 = problemMap.get(ProblemConstants.energyUseBUILD1) * problemMap.get(ProblemConstants.unitPriceEnergy);
+        int moneySpentFoodBuild2 = problemMap.get(ProblemConstants.foodUseBUILD2) * problemMap.get(ProblemConstants.unitPriceFood);
+        int moneySpentMaterialsBuild2 = problemMap.get(ProblemConstants.materialsUseBUILD2) * problemMap.get(ProblemConstants.unitPriceMaterials);
+        int moneySpentEnergyBuild2 = problemMap.get(ProblemConstants.energyUseBUILD2) * problemMap.get(ProblemConstants.unitPriceEnergy);
+
+        int priceUseBuild1Heuristic1 = moneySpentEnergyBuild1 + moneySpentFoodBuild1 + moneySpentMaterialsBuild1;
+        int priceUseBuild2Heuristic1 = moneySpentEnergyBuild2 + moneySpentFoodBuild2 + moneySpentMaterialsBuild2;
+
+
+        int priceUseBuild1Heuristic2 = problemMap.get(ProblemConstants.priceBUILD1);
+        int priceUseBuild2Heuristic2 = problemMap.get(ProblemConstants.priceBUILD2);
+
+        int prosperityIncreaseBuild1 = problemMap.get(ProblemConstants.prosperityBUILD1);
+        int prosperityIncreaseBuild2 = problemMap.get(ProblemConstants.prosperityBUILD2);
+
+        this.prosperityIncreaseToUse = Math.max(prosperityIncreaseBuild1,prosperityIncreaseBuild2);
+        this.priceToUseHeuristic1 = Math.min(priceUseBuild1Heuristic1,priceUseBuild2Heuristic1);
+        this.priceToUseHeuristic2 = Math.min(priceUseBuild1Heuristic2,priceUseBuild2Heuristic2);
+    }
+
 
     public State initState(String problem){
         return null;
@@ -36,17 +64,15 @@ public class GenericSearch {
     }
 
     public int getHeuristic1(Node node){
-        if(node.getState().isGoalState()){
-            return 0;
-        }
-        return - (100 - node.getState().getProsperity());
+        int prosperityLeft = Math.max(100 - node.getState().getProsperity(),0);
+        int levelsLeft = prosperityLeft/prosperityIncreaseToUse;
+        return -(priceToUseHeuristic1 * levelsLeft);
     }
 
-    public double getHeuristic2(Node node){
-        if(node.getState().isGoalState()){
-            return 0;
-        }
-        return - ((double) node.getState().getMoneySpent() / node.getState().getProsperity());
+    public int getHeuristic2(Node node){
+        int prosperityLeft = Math.max(100 - node.getState().getProsperity(),0);
+        int levelsLeft = prosperityLeft/prosperityIncreaseToUse;
+        return -(priceToUseHeuristic2 * levelsLeft);
     }
 
     public void enqueue(PriorityQueue<Node> nodes, Node node, String strategy, Node initNode){
@@ -69,7 +95,7 @@ public class GenericSearch {
                         break;
 
                     case "UC":
-                        child.priority = -child.getPathCost();
+                        child.priority = -child.getState().getMoneySpent();
                         break;
 
                     case "GR1":
@@ -81,11 +107,11 @@ public class GenericSearch {
                         break;
 
                     case "AS1":
-                        child.priority = -child.getPathCost() + getHeuristic1(child);
+                        child.priority = -child.getState().getMoneySpent() + getHeuristic1(child);
                         break;
 
                     case "AS2":
-                        child.priority = -child.getPathCost() + getHeuristic2(child);
+                        child.priority = -child.getState().getMoneySpent() + getHeuristic2(child);
                         break;
 
                     default:
