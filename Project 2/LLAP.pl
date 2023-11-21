@@ -1,7 +1,7 @@
 :-include('KB.pl').
 
 goal(Situation):-
-    ids(Situation,20).
+    ids(Situation,1).
 
 ids(Situation,Length):-
     (call_with_depth_limit(goalHelper(Situation),Length,R), number(R));
@@ -59,7 +59,7 @@ goalLogic(Resources,BuildStatus,result(reqm,Situation)):-
     goalLogic(PreviousResources,BuildStatus,Situation),
     resource(PreviousFood,PreviousMaterials,PreviousEnergy) = PreviousResources,
     ResultingMaterials is PreviousMaterials + 1,
-    Resources = resource(PreviousFood, ResultingMaterials ,PreviousEnergy).
+    Resources = resource(PreviousFood, ResultingMaterials, PreviousEnergy).
 
 goalLogic(Resources,BuildStatus,result(reqe,Situation)):-
     goalLogic(PreviousResources,BuildStatus,Situation),
