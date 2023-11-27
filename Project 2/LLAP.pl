@@ -1,7 +1,7 @@
 :-include('KB.pl').
 
 goal(Situation):-
-    ids(Situation,1).
+    ids(Situation,10).
 
 ids(Situation,Length):-
     (call_with_depth_limit(goalHelper(Situation),Length,R), number(R));
@@ -10,9 +10,10 @@ ids(Situation,Length):-
 
 goalHelper(Situation):-
     goalLogic(_,BuildStatus,Situation),
+    (Situation = result(b1,_);Situation = result(b2,_)),
     BuildStatus = build(Build1Counter,Build2Counter),
-    Build1Counter > 0,
-    Build2Counter > 0.
+    Build1Counter == 1,
+    Build2Counter == 1.
 
 goalLogic(InitialResources,InitialBuildStatus,s0):-
     food(InitialFood),
